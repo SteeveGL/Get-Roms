@@ -1,8 +1,0 @@
-{
-  "server": {
-    "url": ""
-  },
-  "roms": {
-    "path": "./ROMs"
-  }
-}
