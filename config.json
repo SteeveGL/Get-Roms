@@ -1,5 +1,8 @@
 {
-  "host": {
-    "url": "https://myrient.erista.me/"
+  "server": {
+    "url": ""
+  },
+  "roms": {
+    "path": "./ROMs"
   }
 }
