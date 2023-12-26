@@ -1,3 +1,4 @@
+import threading
 import customtkinter as ctk
 import json
 import os
@@ -85,13 +86,20 @@ class App(ctk.CTk):
     self.download_button.configure(state=ctk.NORMAL)
 
   def button_download(self):
+    self.start_download()
+
+  def start_download(self):
+    threading.Thread(target=self.rom_download, daemon=True).start()
+
+  def rom_download(self):
     progress_label = ctk.CTkLabel(self.roms_frame)
     progress_label.pack(anchor=tk.CENTER, pady=10)
     progress = ctk.CTkProgressBar(self.roms_frame, orientation="horizontal")
     progress.pack(anchor=tk.CENTER, pady=20)
 
-    done = 0
+    self.download_button.configure(state=ctk.DISABLED)
 
+    done = 0
     for link in self.links:
       manufacturer = self.treeview.item(self.selected_parent, "text")
       console = self.treeview.item(self.selected_item, "text")
@@ -102,7 +110,7 @@ class App(ctk.CTk):
 
       done += 1
       progress.set((done / len(self.links)) * 100)
-
+      
     progress_label.destroy()
     progress.destroy()
 
