@@ -22,7 +22,8 @@ class App(ctk.CTk):
           "url": ""
       },
       "roms": {
-        "path": "./ROMs"
+        "path": "./roms",
+        "unzip": True
       }
     }
 
@@ -37,7 +38,7 @@ class App(ctk.CTk):
     treeview_frame.pack_propagate(False)  # Prevent the frame from resizing with its content
     treeview_frame.configure(width=50)
 
-    self.treeview = ttk.Treeview(treeview_frame)
+    self.treeview = ttk.Treeview(treeview_frame, show='tree')
     self.treeview_scrollbar = ttk.Scrollbar(treeview_frame, orient="vertical", command=self.treeview.yview)
     self.treeview.configure(yscrollcommand=self.treeview_scrollbar.set)
     self.treeview.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -106,10 +107,10 @@ class App(ctk.CTk):
       download_path = f"{self.config['roms']['path']}/{manufacturer}/{console}/{link['title']}"
 
       progress_label.configure(text=link['title'])
-      self.roms_links.rom_download(link["link"], download_path)
+      self.roms_links.rom_download(link["link"], download_path, self.config['roms']['unzip'])
 
       done += 1
-      progress.set((done / len(self.links)) * 100)
+      progress.set((done / len(self.links)))
       
     progress_label.destroy()
     progress.destroy()
